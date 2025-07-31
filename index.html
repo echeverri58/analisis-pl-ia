@@ -3,216 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recomendaciones para el Proyecto de Ley de IA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Análisis Ley de IA Colombia</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-green: #0D47A1; /* Un verde esmeralda oscuro y serio */
+            --secondary-green: #1B5E20; /* Verde bosque oscuro */
+            --accent-green: #4CAF50; /* Verde más brillante para acentos */
+            --light-green-bg: #F1F8E9; /* Un fondo verde muy pálido */
+            --dark-text: #212121;
+            --light-text: #FAFAFA;
+            --gray-bg: #F5F5F5;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-green-bg);
+            color: var(--dark-text);
+            overflow-x: hidden;
         }
-        .header-green {
-            background-color: #1B5E20; /* Deep Green */
+
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            border-bottom: 1px solid var(--shadow-color);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-        .green-text {
-            color: #1B5E20;
+
+        .slide.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .light-green {
-            background-color: #E8F5E9;
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
         }
-        .border-green {
-            border-color: #4CAF50;
+
+        #title-slide {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: var(--light-text);
         }
-        .chart-container {
-            position: relative;
+
+        #title-slide h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: #FDD835; /* Vibrant Yellow */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        #title-slide h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-top: 0;
+            color: #E0F7FA; /* Light Cyan */
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.6);
+        }
+
+        #title-slide .author {
+            margin-top: 40px;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        h1 { font-size: 2.8rem; color: var(--primary-green); margin-bottom: 10px; }
+        h2 { font-size: 2rem; color: var(--secondary-green); margin-bottom: 40px; }
+        p { font-size: 1.2rem; line-height: 1.8; }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--accent-green);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-green);
+            margin-top: 0;
+        }
+        
+        .card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .icon {
+            font-size: 3rem;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
+
+        /* Accordion for modifications */
+        .accordion {
             width: 100%;
             max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+        }
+        .accordion-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            border-left: 5px solid var(--primary-green);
+        }
+        .accordion-item-header {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary-green);
+        }
+        .accordion-item-header::after {
+            content: '\25BC'; /* Down arrow */
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .accordion-item-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 20px;
+        }
+        .accordion-item-body-content {
+            padding-bottom: 20px;
+            text-align: left;
+        }
+        .accordion-item-body-content p {
+            font-size: 1rem;
+        }
+        .accordion-item-body-content strong {
+            color: var(--secondary-green);
+        }
+        .accordion-item.active .accordion-item-header::after {
+            transform: rotate(180deg);
+        }
+        .accordion-item.active .accordion-item-body {
+            max-height: 500px; /* Adjust as needed */
+        }
+
+        #chart-container {
+            width: 100%;
+            max-width: 800px;
             height: 450px;
-            max-height: 500px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px var(--shadow-color);
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-            }
+
+        #conclusion-slide {
+            background-color: var(--secondary-green);
+            color: var(--light-text);
         }
-        .proposal-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        #conclusion-slide h1, #conclusion-slide h2 {
+            color: var(--light-text);
         }
-        .proposal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        #conclusion-slide .final-author {
+            margin-top: 40px;
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            #title-slide h1 { font-size: 2.5rem; }
+            #title-slide h2 { font-size: 1.4rem; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+            .slide { padding: 60px 15px; }
         }
     </style>
 </head>
-<body class="bg-[#F5F5F5] text-gray-800">
+<body>
 
-    <header class="header-green text-white p-8 text-center shadow-lg">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Análisis y Propuestas de Mejora al Proyecto de Ley de IA</h1>
-        <p class="text-lg text-[#C8E6C9] mb-4">Un enfoque estratégico para la regulación tecnológica en Colombia.</p>
-        <p class="text-sm font-semibold">Elaborado por el Equipo UTL del Senador León Fredy Muñoz Lopera</p>
-    </header>
+    <div id="title-slide" class="slide visible">
+        <div class="slide-content">
+            <h2>Análisis Integral del Proyecto de Ley</h2>
+            <h1>Regulación de la Inteligencia Artificial en Colombia</h1>
+            <p class="author">Creado por el Equipo UTL del Senador León Fredy Muñoz Lopera</p>
+        </div>
+    </div>
 
-    <main class="container mx-auto p-4 md:p-8">
+    <div id="intro-slide" class="slide">
+        <div class="slide-content">
+            <h1>Visión del Proyecto</h1>
+            <h2>Hacia una IA Ética, Responsable e Innovadora para Colombia</h2>
+            <p>El Proyecto de Ley 43 de 2025 busca establecer un marco regulatorio integral para la Inteligencia Artificial (IA) en Colombia. Su objetivo es habilitar el desarrollo, uso y aprovechamiento de la IA, impulsando el crecimiento económico y la competitividad del país, al tiempo que se asegura la prevalencia de los derechos fundamentales.</p>
+        </div>
+    </div>
 
-        <section class="mb-12">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold green-text mb-4 text-center">Introducción a las Propuestas</h2>
-                <p class="text-center text-gray-600 mb-6">El presente documento sintetiza las recomendaciones clave para el proyecto de ley, derivadas de un análisis integral. Nuestro objetivo es fortalecer el articulado, asegurando que sea técnicamente viable, legalmente sólido y políticamente progresista, promoviendo la innovación de forma ética y equitativa. Se detallan las modificaciones, adiciones y justificaciones para la consideración del equipo jurídico.</p>
+    <div id="principles-slide" class="slide">
+        <div class="slide-content">
+            <h1>Principios Rectores</h1>
+            <h2>La base ética de la regulación</h2>
+            <div class="card-container">
+                <div class="card">
+                    <div class="icon">👤</div>
+                    <h3>Supervisión Humana</h3>
+                    <p>Garantizar que siempre haya una persona responsable y capaz de intervenir en las decisiones de los sistemas de IA.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🛡️</div>
+                    <h3>Privacidad y Datos</h3>
+                    <p>Proteger la información personal y la confidencialidad como un derecho fundamental en el entorno digital.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🌍</div>
+                    <h3>Inclusión y Diversidad</h3>
+                    <p>Evitar la creación o perpetuación de sesgos, asegurando que la IA beneficie a todos los grupos de la sociedad.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">💡</div>
+                    <h3>Innovación Responsable</h3>
+                    <p>Fomentar el desarrollo tecnológico y la investigación, pero siempre dentro de un marco ético y seguro.</p>
+                </div>
+                 <div class="card">
+                    <div class="icon">⚖️</div>
+                    <h3>Proporcionalidad</h3>
+                    <p>Las medidas de supervisión y gestión de la IA deben ser proporcionales a los niveles de riesgo que presentan.</p>
+                </div>
+                 <div class="card">
+                    <div class="icon">📈</div>
+                    <h3>Competencia Económica</h3>
+                    <p>Promover un mercado justo y competitivo, evitando monopolios y fomentando la participación de diversos actores.</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="articulado-sugerido" class="mb-12">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold green-text mb-6 text-center">Análisis y Propuestas de Modificación al Articulado</h2>
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="proposal-card light-green p-6 rounded-lg shadow-sm border-t-4 border-green">
-                        <h3 class="font-bold text-xl mb-2 green-text">🎯 Especificidad Técnica</h3>
-                        <p class="text-gray-700 font-semibold mb-2">Recomendación:</p>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
-                            <li>Modificar el articulado para definir con precisión términos como "sistemas de código abierto" y "modelos fundacionales".</li>
-                            <li>Establecer metodologías claras para auditar sesgos algorítmicos.</li>
-                        </ul>
-                        <p class="text-gray-700 font-semibold mt-4 mb-2">Justificación:</p>
-                        <p class="text-gray-600 italic">La falta de especificidad podría generar ambigüedad legal, obstaculizar la innovación en el sector de código abierto y dificultar la implementación técnica y el cumplimiento de la ley. Es crucial para la viabilidad técnica y legal.</p>
+    <div id="comparison-slide" class="slide">
+        <div class="slide-content">
+            <h1>Fortalezas y Contexto Global</h1>
+            <h2>Un enfoque moderno y alineado con las mejores prácticas</h2>
+            <p>El proyecto colombiano adopta un enfoque basado en riesgos, similar a los marcos regulatorios más avanzados del mundo, como el de la Unión Europea. Esto posiciona a Colombia a la vanguardia en la región.</p>
+            <div id="chart-container">
+                <canvas id="comparisonChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div id="modifications-slide" class="slide">
+        <div class="slide-content">
+            <h1>Sugerencias de Modificación</h1>
+            <h2>Artículos a mejorar para mayor claridad y efectividad</h2>
+            <p>Para fortalecer el proyecto, se proponen ajustes clave en artículos específicos que abordan desde el alcance de la ley hasta la protección de los derechos individuales.</p>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-item-header">Art. 2 (Ámbito de aplicación)</div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <p><strong>Sugerencia:</strong> Incluir una mención explícita sobre la aplicación de la ley a los sistemas de IA de <strong>código abierto (open source)</strong>.</p>
+                            <p><strong>Sustento:</strong> La IA de código abierto es una fuerza impulsora del desarrollo tecnológico. Su regulación explícita es crucial para garantizar la seguridad y la ética, evitando lagunas regulatorias.</p>
+                        </div>
                     </div>
-                    <div class="proposal-card light-green p-6 rounded-lg shadow-sm border-t-4 border-green">
-                        <h3 class="font-bold text-xl mb-2 green-text">🛡️ Fortalecimiento de la Gobernanza</h3>
-                        <p class="text-gray-700 font-semibold mb-2">Recomendación:</p>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
-                            <li>Modificar artículos para detallar los mecanismos de supervisión independiente y la asignación de presupuesto a las entidades reguladoras (MinCiencias).</li>
-                            <li>Definir claramente la "supervisión humana" en la toma de decisiones automatizadas en el sector público.</li>
-                        </ul>
-                        <p class="text-gray-700 font-semibold mt-4 mb-2">Justificación:</p>
-                        <p class="text-gray-600 italic">Sin recursos y capacidades claras, la entidad reguladora no podrá ejercer su rol. La definición de la supervisión humana es vital para proteger los derechos constitucionales como el debido proceso.</p>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-item-header">Art. 4 (Definiciones)</div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <p><strong>Sugerencia:</strong> Añadir definiciones para <strong>"modelo fundacional"</strong> y <strong>"cadena de valor de la IA"</strong>.</p>
+                            <p><strong>Sustento:</strong> Los modelos fundacionales (como los grandes modelos de lenguaje) son la base de muchas aplicaciones y presentan riesgos únicos. Definir la "cadena de valor" permite una asignación más clara de responsabilidades.</p>
+                        </div>
                     </div>
-                    <div class="proposal-card light-green p-6 rounded-lg shadow-sm border-t-4 border-green">
-                        <h3 class="font-bold text-xl mb-2 green-text">👥 Protección Ciudadana y Laboral</h3>
-                        <p class="text-gray-700 font-semibold mb-2">Recomendación:</p>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1 pl-4">
-                            <li>Revisar el régimen de responsabilidad para garantizar mecanismos de reclamación y reparación claros y efectivos para los ciudadanos.</li>
-                        </ul>
-                        <p class="text-gray-700 font-semibold mt-4 mb-2">Justificación:</p>
-                        <p class="text-gray-600 italic">El marco actual debe ser más robusto para proteger los derechos fundamentales y asegurar que las víctimas de decisiones algorítmicas tengan un camino claro hacia la justicia. Esto refuerza la coherencia con la Constitución y la jurisprudencia.</p>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-item-header">Art. 6 (Evaluación de Impacto)</div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                           <p><strong>Sugerencia:</strong> Especificar los criterios mínimos y metodologías para el "análisis de la calidad y representatividad de los datos" y los "mecanismos para auditar y mitigar los sesgos".</p>
+                           <p><strong>Sustento:</strong> Sin criterios claros, la evaluación de impacto puede ser subjetiva y limitada. Se necesitan estándares técnicos para garantizar la mitigación efectiva de la discriminación y asegurar la fiabilidad.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-item-header">Art. 10 (IA en la Adm. Pública)</div>
+                    <div class="accordion-item-body">
+                        <div class="accordion-item-body-content">
+                            <p><strong>Sugerencia:</strong> Detallar los mecanismos de <strong>"supervisión humana"</strong>, como la obligación de contar con un "human-in-the-loop" para decisiones de alto impacto.</p>
+                            <p><strong>Sustento:</strong> La jurisprudencia colombiana ha enfatizado que la IA no sustituye al juez humano. La ley debe especificar cómo se garantiza una "intervención humana significativa" para evitar decisiones arbitrarias.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="nuevos-articulos" class="mb-12">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold green-text mb-6 text-center">Propuestas de Adición de Artículos</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="proposal-card light-green p-6 rounded-lg shadow-sm border-l-4 border-green">
-                        <h3 class="font-bold text-xl mb-2 green-text">Artículo Propuesto: Ética y Valores</h3>
-                        <p class="text-gray-700 mb-4">Se propone la adición de un capítulo o artículo que establezca explícitamente los principios de ética en la IA, incluyendo la equidad, la no maleficencia y la beneficencia. Este articulado debe servir como un marco guía para la innovación, más allá de la simple legalidad.</p>
-                        <p class="text-gray-700 italic"><strong>Justificación:</strong> Un marco ético explícito complementa el legal, fomentando una cultura de diseño responsable y anticipando desafíos futuros no cubiertos por la normativa actual.</p>
-                    </div>
-                    <div class="proposal-card light-green p-6 rounded-lg shadow-sm border-l-4 border-green">
-                        <h3 class="font-bold text-xl mb-2 green-text">Artículo Propuesto: IA y el Futuro del Trabajo</h3>
-                        <p class="text-gray-700 mb-4">Se propone la creación de un capítulo que aborde el impacto de la IA en el mercado laboral. Este debería incluir la creación de un "Fondo Nacional para la Reconversión Laboral" y la promoción de programas de capacitación en nuevas tecnologías.</p>
-                        <p class="text-gray-700 italic"><strong>Justificación:</strong> Abordar proactivamente el impacto social de la IA es una mejor práctica a nivel internacional y demuestra un enfoque político responsable. Promueve la equidad y la preparación del país para el futuro del trabajo.</p>
-                    </div>
+    <div id="additions-slide" class="slide">
+        <div class="slide-content">
+            <h1>Propuestas de Adición</h1>
+            <h2>Nuevos elementos para un marco legal completo</h2>
+            <p>Se identifican vacíos críticos en el proyecto que pueden ser abordados con la adición de nuevos artículos o capítulos, fortaleciendo la protección de los ciudadanos y el futuro del trabajo.</p>
+            <div class="card-container">
+                <div class="card">
+                    <div class="icon">🔍</div>
+                    <h3>Auditorías Algorítmicas</h3>
+                    <p><strong>Propuesta:</strong> Un nuevo artículo que establezca la obligatoriedad de auditorías algorítmicas independientes para sistemas de IA de alto riesgo, realizadas por terceros imparciales.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">🗣️</div>
+                    <h3>Reclamación y Reparación</h3>
+                    <p><strong>Propuesta:</strong> Un artículo que garantice a las personas afectadas el derecho a una explicación clara, a impugnar la decisión y a acceder a mecanismos de reparación efectivos.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">💼</div>
+                    <h3>IA y el Futuro del Trabajo</h3>
+                    <p><strong>Propuesta:</strong> Un capítulo dedicado a la IA y el trabajo, que incluya la creación de fondos para la reconversión laboral y promueva el diálogo social sobre la automatización.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <section id="justificaciones-summary" class="mb-12">
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-3xl font-bold green-text mb-4 text-center">Justificación de las Propuestas</h2>
-                <p class="text-center text-gray-600 mb-6">Cada recomendación se fundamenta en un análisis integral que considera múltiples perspectivas. El siguiente gráfico muestra el peso de las justificaciones legales, técnicas y políticas detrás de nuestras propuestas.</p>
-                <div class="chart-container">
-                    <canvas id="justificationChart"></canvas>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="header-green text-white text-center p-4 mt-8">
-        <p>&copy; 2025. Infografía de análisis legislativo.</p>
-    </footer>
+    <div id="conclusion-slide" class="slide">
+        <div class="slide-content">
+            <h1>Un Hito Fundamental para Colombia</h1>
+            <p>El Proyecto de Ley 43 de 2025 es un paso decisivo y necesario. Al incorporar estas recomendaciones, Colombia tiene la oportunidad de consolidar su posición como un referente en la regulación responsable de la Inteligencia Artificial en América Latina y el mundo, asegurando que la tecnología contribuya a un desarrollo ético, equitativo e innovador.</p>
+            <h2 class="final-author">Equipo UTL del Senador León Fredy Muñoz Lopera</h2>
+        </div>
+    </div>
 
     <script>
-        const wrapLabel = (label) => {
-            const maxLength = 16;
-            if (label.length <= maxLength) return label;
-            
-            const words = label.split(' ');
-            let lines = [];
-            let currentLine = '';
+        // Accordion functionality
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-item-header');
+            header.addEventListener('click', () => {
+                const currentlyActive = document.querySelector('.accordion-item.active');
+                if (currentlyActive && currentlyActive !== item) {
+                    currentlyActive.classList.remove('active');
+                }
+                item.classList.toggle('active');
+            });
+        });
 
-            words.forEach(word => {
-                if ((currentLine + ' ' + word).length > maxLength) {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine += (currentLine ? ' ' : '') + word;
+        // Animate slides on scroll
+        const slides = document.querySelectorAll('.slide');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-            lines.push(currentLine.trim());
-            return lines;
-        };
+        }, { threshold: 0.2 });
 
-        const tooltipTitleCallback = (tooltipItems) => {
-            const item = tooltipItems[0];
-            let label = item.chart.data.labels[item.dataIndex];
-            return Array.isArray(label) ? label.join(' ') : label;
-        };
-
-        const justificationData = {
-            labels: [wrapLabel('Justificación Legal'), wrapLabel('Justificación Técnica'), wrapLabel('Justificación Política y Social')],
-            datasets: [{
-                label: 'Peso de la Justificación',
-                data: [5, 4, 3],
-                backgroundColor: ['#0971B2', '#41A5E1', '#89D6FF'],
-                borderColor: '#F5F5F5',
-                borderWidth: 2
-            }]
-        };
-
-        const justificationOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: '#ddd'
-                    },
-                    ticks: {
-                        color: '#555'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: '#555'
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        title: tooltipTitleCallback
-                    }
-                }
-            }
-        };
-
-        new Chart(document.getElementById('justificationChart'), {
-            type: 'bar',
-            data: justificationData,
-            options: justificationOptions
+        slides.forEach(slide => {
+            observer.observe(slide);
         });
+
+        // Chart.js implementation
+        const chartObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    renderChart();
+                    observer.unobserve(entry.target); // Stop observing once chart is rendered
+                }
+            });
+        }, { threshold: 0.5 });
+
+        chartObserver.observe(document.getElementById('chart-container'));
+
+        function renderChart() {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Enfoque Basado en Riesgos', 'Gobernanza Clara', 'Alcance Extraterritorial', 'Fomento a la Innovación'],
+                    datasets: [{
+                        label: 'Proyecto Ley Colombia',
+                        data: [90, 85, 80, 88],
+                        backgroundColor: 'rgba(13, 71, 161, 0.7)', // primary-green
+                        borderColor: 'rgba(13, 71, 161, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'EU AI Act',
+                        data: [95, 90, 92, 80],
+                        backgroundColor: 'rgba(76, 175, 80, 0.7)', // accent-green
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Propuesta Chile',
+                        data: [85, 80, 70, 82],
+                        backgroundColor: 'rgba(27, 94, 32, 0.7)', // secondary-green
+                        borderColor: 'rgba(27, 94, 32, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nivel de Alineación / Desarrollo (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparativa de Enfoques Regulatorios de IA',
+                            font: {
+                                size: 18
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    }
+                }
+            });
+        }
     </script>
+
 </body>
 </html>
